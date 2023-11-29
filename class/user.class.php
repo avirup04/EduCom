@@ -15,20 +15,33 @@ class User
 
     public function createUser($tableName, $data)
     {
+        // Generate unkID and usrID once
+        $unkID = $this->generateUnkID();
+        $usrID = $this->generateUsrID();
+
         // Convert data array to comma-separated strings
-        $columns = implode(", ", array_keys($data));
-        $values = "'" . implode("', '", $data) . "'";
+        $columns = implode(", ", array_merge(array_keys($data), ['unk_id', 'usr_id']));
+        $values = "'" . implode("', '", array_merge(array_values($data), [$unkID, $usrID])) . "'";
 
         // Check if phone and email are unique
         $checkUserData = json_decode($this->checkUser($data['phone'], $data['email']));
-        
+
         // If both phone and email are unique, insert the new user
         if (!$checkUserData->isPhone && !$checkUserData->isEmail) {
-            $sql = "INSERT INTO $tableName ($columns) VALUES ($values)";
-            if ($this->connection->query($sql)) {
-                return array('message' => 'User created successfully 😊');
+            reGen:
+            $checkUsridUnkid = json_decode($this->checkUnkIDUsrID($unkID, $usrID));
+            if (!$checkUsridUnkid->isUnkid && !$checkUsridUnkid->isUsrid) {
+                $sql = "INSERT INTO $tableName ($columns) VALUES ($values)";
+                if ($this->connection->query($sql)) {
+                    return array('message' => 'User created successfully 😊');
+                } else {
+                    return array('message' => 'Failed to create User 😞');
+                }
             } else {
-                return array('message' => 'Faild to creat User 😞');
+                // Regenerate IDs and try again
+                $unkID = $this->generateUnkID();
+                $usrID = $this->generateUsrID();
+                goto reGen;
             }
         } else {
             $msg = "";
@@ -41,7 +54,7 @@ class User
 
     public function getUser($table, $id)
     {
-        $sql = "SELECT * FROM $table WHERE id = $id";
+        $sql = "SELECT * FROM $table WHERE usr_id = $id";
         $result = $this->connection->query($sql);
         return $result->fetch_assoc();
     }
@@ -109,16 +122,28 @@ class User
         // Return JSON response indicating phone and email status
         return json_encode(array('isPhone' => $isPhone, 'isEmail' => $isEmail));
     }
+
     public function checkUnkIDUsrID($unkid, $usrid)
     {
         // Check if phone and email exist in the database
-        $isUnkid = $this->connection->query("SELECT * FROM users WHERE unkid = '$unkid'")->num_rows > 0;
-        $isEmail = $this->connection->query("SELECT * FROM users WHERE usrid = '$usrid'")->num_rows > 0;
+        $isUnkid = $this->connection->query("SELECT * FROM users WHERE unk_id = '$unkid'")->num_rows > 0;
+        $isUsrid = $this->connection->query("SELECT * FROM users WHERE usr_id = '$usrid'")->num_rows > 0;
 
         // Return JSON response indicating phone and email status
-        return json_encode(array('isUnkid' => $isUnkid, 'isUsrid' => $isEmail));
+        return json_encode(array('isUnkid' => $isUnkid, 'isUsrid' => $isUsrid));
     }
 
+    private function generateUnkID()
+    {
+        $randomInt = mt_rand(100, 999); // Generate a random 3-digit integer
+        $randomChar = substr(str_shuffle("abcdefghijklmnopqrstuvwxyz"), 0, 3); // Generate a random 3-character string
+        return "edu-$randomInt-com-$randomChar";
+    }
+
+    private function generateUsrID()
+    {
+        return mt_rand(1000000000, 9999999999); // Generate a random 10-digit integer
+    }
 
     public function __destruct()
     {

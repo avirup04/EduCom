@@ -6,7 +6,7 @@ require_once './class/user.class.php';
 $host = 'localhost';
 $user = 'root';
 $pasw = '';
-$db = 'test';
+$db = 'educom';
 
 $user = new User($host, $user, $pasw, $db);
 
@@ -14,7 +14,7 @@ $user = new User($host, $user, $pasw, $db);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data = json_decode(file_get_contents("php://input"));
 
-    if (!empty($data->name) && !empty($data->phone) && !empty($data->email) && !empty($data->join_date) && !empty($data->unkid)) {
+    if (!empty($data->name) && !empty($data->phone) && !empty($data->email) && !empty($data->class) && !empty($data->join_date) && !empty($data->is_active)) {
         $newUser = $user->createUser('users', (array)$data);
         echo json_encode($newUser);
     } elseif (isset($data->type) && ($data->type === 'getAllUsers')) {
@@ -68,5 +68,5 @@ elseif ($_SERVER['REQUEST_METHOD'] == "DELETE") {
 // nothing to do here
 else {
     http_response_code(405);
-    echo json_encode(array("message" => "Method Not Allowed. 😕", "method" => $_SERVER['REQUEST_METHOD']));
+    echo json_encode(array("message" => "Method Not Allowed. 🙁", "method" => $_SERVER['REQUEST_METHOD']));
 }
