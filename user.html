@@ -4,55 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Educom</title>
+    <title>Coming Soon</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
     <!-- Custom CSS -->
     <style>
         body {
-            margin-top: 0;
+            background-color: #282c34;
+            color: #ffffff;
+            text-align: center;
             padding-top: 0px;
         }
 
-        /* Additional styles for the footer */
-        footer {
-            background-color: #343a40;
-            color: #fff;
-            padding: 0px;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-        }
-
-        /* Styles for the social icons */
-        .social-icons {
-            list-style: none;
-            padding: 0;
-        }
-
-        .social-icons li {
-            display: inline-block;
-            margin-right: 10px;
-        }
-
-        .social-icons a {
-            color: #fff;
-            font-size: 24px;
-            text-decoration: none;
-            transition: color 0.3s ease-in-out;
-        }
-
-        .social-icons a:hover {
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
             color: #61dafb;
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 4rem;
+            color: #61dafb;
+        }
+
+        #countdown {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #dc3545;
+            background-color: #ffffff;
+            padding: 1.5rem 3rem;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.html">EDUCOM</a>
@@ -85,49 +78,16 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header id="hero" class="jumbotron text-center">
-        <div class="container">
-            <h1 class="display-4">Welcome to EduCom World!</h1>
-            <p class="lead">We are just ahead of a great software update for our EduCom!</p>
-            <a class="btn btn-primary btn-lg" href="#features" role="button">Learn More</a>
-        </div>
-    </header>
+    <br><br><br><br><br>
 
-    <!-- Features Section -->
-    <section id="features" class="container mt-5">
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>New way of education</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Live programing</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Daily challanges</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
-            </div>
-        </div>
-    </section>
+    <div class="container">
+        <h1>Coming Soon</h1>
+        <p>Our EduCom software developers are trying their best to come up with the stable version.We are just ahead of a great software update for our EduCom!
+        </p>
 
-    <!-- Contact Section -->
-    <section id="contact" class="bg-light py-5">
-        <div class="container text-center">
-            <h2>Contact Us</h2>
-            <p class="lead">Have questions or want to get in touch? Reach out to us!</p>
-            <a class="btn btn-primary" href="mailto:info@example.com">Email Us</a>
-        </div>
-    </section>
 
-    <!-- Footer Section -->
-    <footer>
-        <div class="container text-center">
-            <p>&copy;DEVELOPED & DESGINED BY EDUCOM SOFTWARE DEVELOPERS | 2023 EduCom. All rights reserved.</p>
-<br>
-        </div>
-    </footer>
+        <div id="countdown"></div>
+    </div>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -139,6 +99,37 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+
+    <!-- Countdown Timer Script -->
+    <script>
+        // Set the date we're counting down to
+        var countDownDate = new Date("Dec 31, 2023 00:00:00").getTime();
+
+        // Update the countdown every 1 second
+        var countdownFunction = setInterval(function () {
+
+            // Get the current date and time
+            var now = new Date().getTime();
+
+            // Calculate the remaining time
+            var distance = countDownDate - now;
+
+            // Calculate days, hours, minutes, and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the countdown
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+            // If the countdown is over, display a message
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("countdown").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+    </script>
 
 </body>
 
