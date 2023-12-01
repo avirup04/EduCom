@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        ::-webkit-scrollbar{
+        ::-webkit-scrollbar {
             display: none;
         }
     </style>
@@ -63,8 +63,8 @@
                                     required>
                             </div>
                             <div class="form-group">
-                                <label for="class">Class:</label>
-                                <select class="form-control" id="class" required>
+                                <label for="studentclass">Class:</label>
+                                <select class="form-control" id="studentclass" required>
                                     <option value="">Select Class</option>
                                     <option value="1">Class 1</option>
                                     <option value="2">Class 2</option>
@@ -85,16 +85,16 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="rollNo">Phone Number:</label>
-                                <input type="text" class="form-control" id="rollNo"
-                                    placeholder="Enter your roll number" required>
+                                <label for="phone">Phone Number:</label>
+                                <input type="text" class="form-control" id="phone" placeholder="Enter your roll number"
+                                    required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
                                 <input type="email" class="form-control" id="email" placeholder="Enter your email"
                                     required>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <button type="button" id="SubUsrDis" class="btn btn-primary btn-block">Register</button>
                         </form>
                     </div>
                 </div>
@@ -102,11 +102,42 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const select = x => document.querySelector(x)
+        const SubUsrDis = select("#SubUsrDis")
 
+
+        SubUsrDis.onclick = () => {
+
+            // const dateTime = formatter.format(new Date());
+            let email = select('#email')
+            let name = select('#name')
+            let phone = select('#phone')
+            let _studentclass = select('#studentclass')
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    class: _studentclass.value,
+                    email: email.value,
+                    is_active: '1',
+                    join_date: "01-12-23",
+                    name: name.value,
+                    phone: phone.value,
+                }),
+            };
+
+            fetch('http://localhost/educom/user/', options)
+                .then(response => response.text())
+                .then(response => console.log(response))
+                .catch(err => console.log(err));
+        };
+
+    </script>
 </body>
 
 </html>
