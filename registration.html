@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        ::-webkit-scrollbar{
+        ::-webkit-scrollbar {
             display: none;
         }
     </style>
@@ -64,7 +64,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="class">Class:</label>
-                                <select class="form-control" id="class" required>
+                                <select class="form-control" id="Studentclass" required>
                                     <option value="">Select Class</option>
                                     <option value="1">Class 1</option>
                                     <option value="2">Class 2</option>
@@ -85,23 +85,42 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="rollNo">Phone Number:</label>
-                                <input type="text" class="form-control" id="rollNo"
-                                    placeholder="Enter your roll number" required>
+                                <label for="phno">Phone Number:</label>
+                                <input type="text" class="form-control" id="phno" placeholder="Enter your roll number"
+                                    required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
                                 <input type="email" class="form-control" id="email" placeholder="Enter your email"
                                     required>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <button type="submit" id="SubStuDis" class="btn btn-primary btn-block">Register</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="./funcs.js"> </script>
+    <script>
+        const Select = x => document.querySelector(x)
 
+        let class = Select('input[id=Studentclass]')
+
+        const options = {
+            method: 'POST',
+            body: `{"class":${class.value},"email":${Select('input[id=email]')},"is_active":"1","join_date":"30-11-23","name":${Select('input[id=name]')},"phone":${Select('input[id=phno]')}}`
+        };
+
+        Select('#SubStuDis').onclick = () => {
+            alert('Hello World!');
+        }
+
+        // fetch('https://kwf3b3s7-80.inc1.devtunnels.ms/educom/user/', options)
+        //     .then(response => response.json())
+        //     .then(response => console.log(response))
+        //     .catch(err => console.error(err));
+    </script>
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
