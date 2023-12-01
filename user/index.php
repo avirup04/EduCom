@@ -1,6 +1,7 @@
 <?php
+require_once '../func.class.php';
 // singel page API version 0.5
-require_once './class/user.class.php';
+require_once $BASEDIR.'/class/user.class.php';
 // require_once './class/requires.class.php';
 
 $host = 'localhost';
@@ -25,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($data->id) && $data->id !== '') {
             $user = $user->getUser('users', $data->id);
             if ($user !== null) {
-                http_response_code(201);
+                http_response_code(200);
                 echo json_encode($user);
             } else {
                 http_response_code(400);

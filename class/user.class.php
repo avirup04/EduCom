@@ -33,7 +33,7 @@ class User
             if (!$checkUsridUnkid->isUnkid && !$checkUsridUnkid->isUsrid) {
                 $sql = "INSERT INTO $tableName ($columns) VALUES ($values)";
                 if ($this->connection->query($sql)) {
-                    return array('message' => 'User created successfully 😊');
+                    return array('message' => 'User created successfully 😊', 'unk_id' => $unkID, 'usr_id' => $usrID);
                 } else {
                     return array('message' => 'Failed to create User 😞');
                 }
@@ -56,7 +56,11 @@ class User
     {
         $sql = "SELECT * FROM $table WHERE usr_id = $id";
         $result = $this->connection->query($sql);
-        return $result->fetch_assoc();
+        $usr = [];
+        while($row = $result->fetch_assoc()){
+            $usr[] = $row;
+        }
+        return $usr;
     }
 
     public function updateUser($tableName, $data)
@@ -68,7 +72,7 @@ class User
         $updateColumns = implode(", ", $updatePairs);
         // Assuming there's an 'id' column in the data
         $id = $data['id'];
-        $sql = "SELECT * FROM $tableName WHERE id = $id";
+        $sql = "SELECT * FROM $tableName WHERE usr_id = $id";
         $result = $this->connection->query($sql);
         if ($result->num_rows > 0) {
             $sql = "UPDATE $tableName SET $updateColumns WHERE id = $id";
@@ -90,7 +94,7 @@ class User
         $sql = "SELECT * FROM $table WHERE id = $id";
         $result = $this->connection->query($sql);
         if ($result->num_rows > 0) {
-            $sql = "DELETE FROM $table WHERE id = $id";
+            $sql = "DELETE FROM $table WHERE usr_id = $id";
             if ($this->connection->query($sql)) {
                 return array("message" => "User deleted");
             }
@@ -113,7 +117,7 @@ class User
     }
 
 
-    public function checkUser($phone, $email)
+    private function checkUser($phone, $email)
     {
         // Check if phone and email exist in the database
         $isPhone = $this->connection->query("SELECT * FROM users WHERE phone = '$phone'")->num_rows > 0;
@@ -123,9 +127,9 @@ class User
         return json_encode(array('isPhone' => $isPhone, 'isEmail' => $isEmail));
     }
 
-    public function checkUnkIDUsrID($unkid, $usrid)
+    private function checkUnkIDUsrID($unkid, $usrid)
     {
-        // Check if phone and email exist in the database
+        // Check if unkID and usrID exist in the database
         $isUnkid = $this->connection->query("SELECT * FROM users WHERE unk_id = '$unkid'")->num_rows > 0;
         $isUsrid = $this->connection->query("SELECT * FROM users WHERE usr_id = '$usrid'")->num_rows > 0;
 
