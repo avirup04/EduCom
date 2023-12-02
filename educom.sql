@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 01, 2023 at 06:15 AM
+-- Generation Time: Dec 01, 2023 at 11:57 AM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,12 +31,12 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `unk_id` varchar(20) NOT NULL,
   `usr_id` varchar(20) NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `email` varchar(30) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `email` varchar(40) NOT NULL,
   `phone` varchar(13) NOT NULL,
-  `class` varchar(4) NOT NULL,
-  `join_date` varchar(10) NOT NULL,
-  `is_active` tinyint(2) NOT NULL
+  `class` varchar(6) NOT NULL,
+  `join_date` varchar(22) NOT NULL,
+  `is_active` tinyint(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `unk_id`, `usr_id`, `name`, `email`, `phone`, `class`, `join_date`, `is_active`) VALUES
 (1, 'edu-111-com-tes', '0000011111', 'test-1', 'test1@mail.com', '00000000', '1', '29-11-23', 1),
-(3, 'edu-141-com-obx', '8069176579', 'test2', 'test2@mail.com', '222222222', '2', '30-11-23', 1);
+(2, 'edu-141-com-obx', '8069176579', 'test2', 'test2@mail.com', '222222222', '2', '30-11-23', 1);
 
 --
 -- Indexes for dumped tables

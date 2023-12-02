@@ -1,4 +1,5 @@
 <?php
+require_once 'mail.class.php';
 
 class User
 {
@@ -33,9 +34,15 @@ class User
             if (!$checkUsridUnkid->isUnkid && !$checkUsridUnkid->isUsrid) {
                 $sql = "INSERT INTO $tableName ($columns) VALUES ($values)";
                 if ($this->connection->query($sql)) {
-                    return array('message' => 'User created successfully 😊', 'unk_id' => $unkID, 'usr_id' => $usrID);
+                    $qr_url = "educom://$usrID@$unkID";
+                    $mail = SendToUser($data['name'], $data['email'],$qr_url,$usrID );
+                    if(isset($mail['message']) && !empty($mail)){
+                        return array('message' => 'User created successfully 😊', 'unk_id' => $unkID, 'usr_id' => $usrID, "emailResponse"=>$mail['message']);
+                    }else{
+                        return array('message' => 'User created successfully 😊', 'unk_id' => $unkID, 'usr_id' => $usrID, "emailResponse"=>"Not Found.");
+                    }
                 } else {
-                    return array('message' => 'Failed to create User 😞');
+                    return array('message' => 'Failed to create User 😞',"error" => $this->connection->error);
                 }
             } else {
                 // Regenerate IDs and try again

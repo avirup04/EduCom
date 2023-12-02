@@ -33,7 +33,7 @@ function SendToUser($name, $emailid, $qr_url, $usr_id)
                 <div class="qrsec">
                     <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=$qr_url&choe=UTF-8"
                         alt="QR Code">
-                    <p><span style="color:red;">**</span> While giving attendance, please scan this QR code to present to the administrator.<br>span style="color:red;">**</span>In case of any
+                    <p><span style="color:red;">**</span> While giving attendance, please scan this QR code to present to the administrator.<br><span style="color:red;">**</span>In case of any
                         failure
                         while giving attendance by QR code, you can give your attendance by using your <strong>User ID : $usr_id</strong>.
                     </p>

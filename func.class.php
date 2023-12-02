@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 
-$devDIR = '/Applications/XAMPP/xamppfiles/htdocs/educom';
+$devDIROSX = '/Applications/XAMPP/xamppfiles/htdocs/educom';
 $devDIRWin = 'D:\XAMPP\htdocs\EduCom';
 $prodDIR = __DIR__;
 
-$BASEDIR = $devDIRWin;
+$BASEDIR = $devDIROSX;
