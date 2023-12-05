@@ -2,7 +2,7 @@
 
 ini_set('display_errors', 1);
 // Allow requests from specific origin
-header('Access-Control-Allow-Origin: http://127.0.0.1:5500');
+header('Access-Control-Allow-Origin: *');
 
 // Allow the following methods
 header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS');
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 
-$devDIR = '/Applications/XAMPP/xamppfiles/htdocs/educom';
+$devDIROSX = '/Applications/XAMPP/xamppfiles/htdocs/educom';
 $devDIRWin = 'D:\XAMPP\htdocs\EduCom';
 $prodDIR = __DIR__;
 

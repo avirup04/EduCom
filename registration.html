@@ -2,20 +2,42 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Registration</title>
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <style>
         ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .visually-hidden {
             display: none;
         }
     </style>
 </head>
 
 <body>
-
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.html">EDUCOM</a>
@@ -60,7 +82,7 @@
                             <div class="form-group">
                                 <label for="name">Name:</label>
                                 <input type="text" class="form-control" id="name" placeholder="Enter your name"
-                                    required>
+                                    required />
                             </div>
                             <div class="form-group">
                                 <label for="studentclass">Class:</label>
@@ -87,60 +109,125 @@
                             <div class="form-group">
                                 <label for="phone">Phone Number:</label>
                                 <input type="text" class="form-control" id="phone" placeholder="Enter your roll number"
-                                    required>
+                                    required />
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
                                 <input type="email" class="form-control" id="email" placeholder="Enter your email"
-                                    required>
+                                    required />
                             </div>
-                            <button type="button" id="SubUsrDis" class="btn btn-primary btn-block">Register</button>
+                            <button type="button" id="SubUsrDis" class="btn btn-primary btn-block">
+                                Register
+                            </button>
                         </form>
                     </div>
+                </div>
+                <div id="resMsg" class="mt-3 mb-3"></div>
+            </div>
+        </div>
+        <!-- Loading overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner">
+                <!-- You can use any loading animation, e.g., a spinner -->
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Footer Section -->
+    <footer>
+        <div class="text-center bg-dark text-white fw-medium">
+            <p>&copy;DEVELOPED & DESGINED BY EDUCOM SOFTWARE DEVELOPERS | 2023 EduCom. All rights reserved.</p><br>
+        </div>
+    </footer>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+    integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+    crossorigin="anonymous"></script>
+<script>
+    const select = (x) => document.querySelector(x);
+    const SubUsrDis = select("#SubUsrDis");
+    const resMsg = select("#resMsg");
+    const form_ = select("form");
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const select = x => document.querySelector(x)
-        const SubUsrDis = select("#SubUsrDis")
+    // Show the loading overlay
+    const showLoading = () => {
+        document.getElementById("loadingOverlay").style.display = "block";
+    };
 
+    // Hide the loading overlay
+    const hideLoading = () => {
+        document.getElementById("loadingOverlay").style.display = "none";
+    };
 
-        const options = { timeZone: 'Asia/Kolkata', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
-        const formatter = new Intl.DateTimeFormat('en-IN', options);
+    const options = {
+        timeZone: "Asia/Kolkata",
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+    };
+    const formatter = new Intl.DateTimeFormat("en-IN", options);
+    const dateTime = formatter.format(new Date());
+    let email = select("#email");
+    let _name = select("#name");
+    let phone = select("#phone");
+    let studentclass = select("#studentclass");
 
-        SubUsrDis.onclick = () => {
+    SubUsrDis.onclick = () => {
+        SubmitUserData(_name, phone, email, studentclass, dateTime);
+    };
 
-            const dateTime = formatter.format(new Date());
-            let email = select('#email')
-            let name = select('#name')
-            let phone = select('#phone')
-            let studentclass = select('#studentclass')
+    window.onkeydown = (event) => {
+        if (event.key === "Enter" || event.keyCode === 13) {
+            event.preventDefault();
+            SubmitUserData(_name, phone, email, studentclass, dateTime);
+        }
+    };
 
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    class: studentclass.value,
-                    email: email.value,
-                    is_active: '1',
-                    join_date: dateTime,
-                    name: name.value,
-                    phone: phone.value,
-                }),
-            };
-
-            fetch('http://localhost/educom/user/', options)
-                .then(response => response.json())
-                .then(response => console.log(response))
-                .catch(err => console.log(err));
+    const SubmitUserData = (name, phone, email, studentclass, datetime) => {
+        showLoading();
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                class: studentclass.value,
+                email: email.value,
+                is_active: "1",
+                join_date: datetime,
+                name: name.value,
+                phone: phone.value,
+            }),
         };
 
-    </script>
-</body>
+        fetch("http://localhost/educom/user/", options)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                resMsg.innerHTML = `
+                        <div class="alert alert-success" role="alert">${data.message} | UserID : ${data.usr_id}.</div>
+                        <br>
+                        <div class="alert alert-success" role="alert">${data.emailResponse}. </div>
+                    `;
+                form_.reset();
+                hideLoading();
+                setTimeout(() => {
+                    resMsg.innerHTML = ''
+                }, 5000)
+            })
+            .catch((err) => console.log(err));
+    };
+</script>
 
 </html>
